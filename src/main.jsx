@@ -1,7 +1,7 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.jsx';
+import './index.css';
 
 import {
   createBrowserRouter,
@@ -14,43 +14,50 @@ import { Blogs } from './pages/Blogs.jsx';
 import Contact from './pages/Contact.jsx';
 import SingleBlog from './pages/SingleBlog.jsx';
 
+import blogsData from './data/blogsData.json'; // Import du fichier JSON local
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App/>,
+    element: <App />,
     children: [
       {
         path: "/",
-        element: <Home/>
+        element: <Home />,
       },
       {
         path: "/services",
-        element: <Services/>
+        element: <Services />,
       },
       {
         path: "/about",
-        element: <About/>
+        element: <About />,
       },
       {
         path: "/blogs",
-        element: <Blogs/>
+        element: <Blogs />,
       },
       {
         path: "/contact",
-        element: <Contact/>
+        element: <Contact />,
       },
       {
         path: "/blogs/:id",
-        element: <SingleBlog/>,
-        loader:  ({ params }) => fetch(`http://localhost:5000/blogs/${params.id}`)
-      }
-    ]
+        element: <SingleBlog />,
+        loader: ({ params }) => {
+          const blog = blogsData.find((b) => b.id === parseInt(params.id, 10));
+          if (!blog) {
+            throw new Error('Blog not found');
+          }
+          return blog;
+        },
+      },
+    ],
   },
 ]);
 
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <RouterProvider router={router} basename="/BlogApp/" /> {/* Spécification du chemin de base */}
   </React.StrictMode>,
-)
+);
