@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: '/BlogApp/', // Correct base for GitHub Pages
+  base: 'BlogApp/', // Correct base for GitHub Pages
 });
